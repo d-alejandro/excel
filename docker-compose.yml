@@ -23,7 +23,7 @@ services:
       - ./:/var/www/backend
     working_dir: /var/www/backend
     environment:
-      XDEBUG_CONFIG: 'client_host=172.17.0.1 client_port=9100'
+      XDEBUG_CONFIG: 'client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT}'
       PHP_IDE_CONFIG: 'serverName=DockerExcel'
       DB_PORT: ${DB_PORT}
       DB_HOST: ${DB_HOST}
