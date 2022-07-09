@@ -30,6 +30,16 @@ services:
     depends_on:
       - db
 
+  cron:
+    build:
+      context: ./docker/cron
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+        - ./:/var/www/backend
+    depends_on:
+        - php-fpm
+
   db:
     image: mariadb:10.8.3
     restart: always
