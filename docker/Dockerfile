@@ -23,7 +23,9 @@ RUN apt-get update && \
     libfreetype6-dev \
     libssl-dev \
     libmcrypt-dev \
+    libzip-dev \
     zlib1g-dev && \
+    docker-php-ext-install zip && \
     docker-php-ext-install sockets && \
     docker-php-ext-install pdo_mysql && \
     docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
