@@ -52,3 +52,8 @@ services:
       - ./storage/docker/mysql:/var/lib/mysql
     ports:
       - "33067:3306"
+
+  redis:
+    image: redis:6.0.16-alpine
+    ports:
+        - "63797:6379"
