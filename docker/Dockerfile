@@ -24,6 +24,7 @@ RUN apt-get update && \
     libssl-dev \
     libmcrypt-dev \
     zlib1g-dev && \
+    docker-php-ext-install sockets && \
     docker-php-ext-install pdo_mysql && \
     docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install gd && \
