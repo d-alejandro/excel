@@ -29,6 +29,8 @@ services:
       DB_HOST: ${DB_HOST}
     depends_on:
       - db
+      - redis
+      - rabbitmq
 
   cron:
     build:
@@ -57,3 +59,14 @@ services:
     image: redis:6.0.16-alpine
     ports:
         - "63797:6379"
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    restart: unless-stopped
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+        RABBITMQ_DEFAULT_VHOST: '/'
+    ports:
+        - "15672:15672"
+        - "5672:5672"
