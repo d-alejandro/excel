@@ -10,12 +10,12 @@
 
 ## Endpoints
 
-###POST {url}/api/import
-
 ```
+POST {url}/api/import
 {
   import_file: 'filename.xlsx'
 }
 ```
-
-### GET {url}/api/output?page={number}&file_name={filename.xlsx}
+```
+GET {url}/api/output?page={number}&file_name={filename.xlsx}
+```
