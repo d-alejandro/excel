@@ -1,0 +1,72 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:1.20.0-alpine
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/backend
+      - ./docker/nginx:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build:
+      args:
+        user: user
+        uid: 1000
+      context: ./docker
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/backend
+    working_dir: /var/www/backend
+    environment:
+      XDEBUG_CONFIG: 'client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT}'
+      PHP_IDE_CONFIG: 'serverName=DockerExcel'
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+
+  cron:
+    build:
+      context: ./docker/cron
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+        - ./:/var/www/backend
+    depends_on:
+        - php-fpm
+
+  db:
+    image: mariadb:10.8.3
+    restart: always
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+    ports:
+      - "33067:3306"
+
+  redis:
+    image: redis:6.0.16-alpine
+    ports:
+        - "63797:6379"
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    restart: unless-stopped
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+        RABBITMQ_DEFAULT_VHOST: '/'
+    ports:
+        - "15672:15672"
+        - "5672:5672"
