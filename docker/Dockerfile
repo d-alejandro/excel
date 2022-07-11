@@ -27,7 +27,7 @@ RUN apt-get update && \
     zlib1g-dev && \
     docker-php-ext-install zip && \
     docker-php-ext-install sockets && \
-    docker-php-ext-install pdo_mysql && \
+    docker-php-ext-install pdo mysqli pdo_mysql && \
     docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install gd && \
     pecl install xdebug-3.0.4 && \
