@@ -1,3 +1,5 @@
 *
 !public/
 !.gitignore
+!test/
+!test/test.xlsx
